@@ -1,0 +1,20 @@
+<h2>Calcul IMC</h2>
+
+<form (ngSubmit)="calculate()" #form="ngForm">
+  <label>Poids (kg):</label>
+  <input type="number" [(ngModel)]="poids" name="poids" required />
+  <br />
+
+  <label>Taille (m):</label>
+  <input type="number" [(ngModel)]="taille" name="taille" step="0.01" required />
+  <br />
+
+  <button type="submit">Calculer</button>
+</form>
+
+<div *ngIf="result">
+  <p><strong>IMC :</strong> {{ result.imc }}</p>
+  <p><strong>Statut :</strong> {{ result.statut }}</p>
+</div>
+
+<p *ngIf="error" style="color: red">{{ error }}</p>
