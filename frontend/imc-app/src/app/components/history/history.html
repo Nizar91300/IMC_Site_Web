@@ -1,0 +1,25 @@
+<div class="history-container">
+  <h2>Historique des calculs IMC</h2>
+
+  <p *ngIf="isLoading">Chargement...</p>
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+
+  <table *ngIf="!isLoading && history.length > 0" border="1">
+    <tr>
+      <th>Date</th>
+      <th>Poids (kg)</th>
+      <th>Taille (cm)</th>
+      <th>IMC</th>
+      <th>Statut</th>
+    </tr>
+    <tr *ngFor="let record of history">
+      <td>{{ record.date | date:'short' }}</td>
+      <td>{{ record.poids }}</td>
+      <td>{{ record.taille }}</td>
+      <td>{{ record.imc }}</td>
+      <td>{{ record.statut }}</td>
+    </tr>
+  </table>
+
+  <p *ngIf="!isLoading && history.length === 0">Aucun calcul trouvé.</p>
+</div>

@@ -23,7 +23,11 @@ def register(request):
     try:
         validate_email(email)
     except ValidationError:
-        return Response({"error": "Email invalide"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "L'adresse email n'est pas valide."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Verifier username (alphanumérique et 3-30 caractères)
+    if not username or not username.isalnum() or len(username) < 3 or len(username) > 30:
+        return Response({"error": "Username invalide (alphanumérique, 3-30 caractères)"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Verifier si username deja pris
     if User.objects.filter(username=username).exists():
@@ -75,10 +79,28 @@ def logout(request):
     request.user.auth_token.delete()  # Supprime le token
     return Response({"success": "Déconnecté avec succès"}, status=status.HTTP_200_OK)
 
+# Vue pour vérifier le token
+@api_view(['GET'])          # accessible uniquement si connecte
+def verify_token(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response({"user": serializer.data}, status=status.HTTP_200_OK)
+
 # Vue pour calculer l'IMC
 @api_view(['POST'])
 @permission_classes([AllowAny])  # accessible sans être connecte
 def calc_imc(request):
+    # verifier les données
+    if "poids" not in request.data or "taille" not in request.data:
+        return Response({"error": "Champs 'poids' et 'taille' requis"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if not isinstance(request.data.get("poids"), (int, float)) or not isinstance(request.data.get("taille"), (int, float)):
+        return Response({"error": "'poids' et 'taille' doivent être des nombres"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if float(request.data.get("poids")) <= 0 or float(request.data.get("taille")) <= 0:
+        return Response({"error": "'poids' et 'taille' doivent être des nombres positifs"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Calcul de l'IMC
     poids = float(request.data.get("poids"))
     taille = float(request.data.get("taille")) / 100  # en m
     imc = round(poids / (taille * taille), 2)
@@ -95,18 +117,16 @@ def calc_imc(request):
 
     # Sauvegarde dans la base si utilisateur connecte
     if request.user.is_authenticated:
-        record = IMCCalculation.objects.create(
+        IMCCalculation.objects.create(
             user=request.user,
             poids=poids,
             taille=taille * 100,
             imc=imc,
             statut=status
         )
-        serializer = IMCCalculationSerializer(record)
-        return Response(serializer.data)
 
     # Si pas connecte, on renvoie juste le resultat
-    return Response({"IMC": imc, "Statut": status})
+    return Response({"imc": imc, "statut": status})
 
 # Vue pour l'historique des calculs d'IMC
 @api_view(['GET'])

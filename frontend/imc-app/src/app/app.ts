@@ -1,16 +1,29 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from './services/auth';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <nav>
-      <a routerLink="/login">Login</a> |
-      <a routerLink="/imc">IMC</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `
+  imports: [RouterOutlet, RouterLink, CommonModule],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  isLoggedIn$!: Observable<boolean>;
+
+  constructor(private authService: AuthService) {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logout() {
+    this.authService.logout();
+    window.location.href = '/login'; // redirige après logout
+  }
+}

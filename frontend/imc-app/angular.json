@@ -2,6 +2,11 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "css"
+    }
+  },
   "projects": {
     "imc-app": {
       "projectType": "application",
@@ -30,7 +35,6 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
             ]
           },
           "configurations": {

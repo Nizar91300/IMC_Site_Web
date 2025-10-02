@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import calc_imc, register, profile, login, logout, imc_history
+from api.views import calc_imc, register, profile, login, logout, imc_history, verify_token
 
 
 urlpatterns = [
@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/login/', login),
     path('api/logout/', logout),
     path('api/imc_history/', imc_history),
+    path('api/verify-token/', verify_token),
 ]

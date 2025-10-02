@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #3f51b5; /* fond bleu principal */
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  color: white;
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* séparateur seulement pour l'espace entre les liens */
+  a + a {
+    margin-left: 0.5rem;
+  }
+}
+
+/* léger espacement pour le contenu principal */
+router-outlet {
+  display: block;
+  margin-top: 2rem;
+}
