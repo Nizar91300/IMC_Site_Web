@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    image: nizar9101/backend_imc-app:latest
     container_name: django_web
     volumes:
       - .:/app
