@@ -9,5 +9,5 @@ export const routes: Routes = [
   { path: 'imc', component: ImcComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'history', component: HistoryComponent },
-  { path: '', redirectTo: '/imc', pathMatch: 'full' }
+  { path: '', redirectTo: 'imc', pathMatch: 'full' }
 ];

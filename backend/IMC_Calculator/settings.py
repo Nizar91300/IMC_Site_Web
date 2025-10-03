@@ -64,7 +64,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
+    "http://localhost",
 ]
 
 ROOT_URLCONF = 'IMC_Calculator.urls'
@@ -92,8 +92,12 @@ WSGI_APPLICATION = 'IMC_Calculator.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'imc_db',
+        'USER': 'user',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
