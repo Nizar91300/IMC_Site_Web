@@ -29,4 +29,4 @@ USER django
 EXPOSE 8000
 
 # Lancer le serveur avec Gunicorn (production)
-CMD ["gunicorn", "IMC_Calculator.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn IMC_Calculator.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
